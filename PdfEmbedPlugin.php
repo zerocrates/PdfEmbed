@@ -23,7 +23,7 @@ class PdfEmbedPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookInstall()
     {
-        self::setSettings(self::$defaultSettings);
+        self::_setSettings(self::$defaultSettings);
     }
 
     public function hookUninstall()
@@ -100,7 +100,8 @@ class PdfEmbedPlugin extends Omeka_Plugin_AbstractPlugin
     public static function _getSettings()
     {
         if (!self::$settings) {
-            self::$settings = json_decode(get_option(self::OPTION_NAME), true);
+            $settings = json_decode(get_option(self::OPTION_NAME), true);
+            self::$settings = $settings ? $settings : array();
         }
         return self::$settings;
     }
