@@ -73,12 +73,14 @@ class PdfEmbedPlugin extends Omeka_Plugin_AbstractPlugin
     public static function embedPdfObject($file, $options)
     {
         $height = (int) $options['height'];
-        $attrs['data'] = $file->getWebPath('original');
+        $pdfPath = $file->getWebPath('original');
+        $attrs['data'] = $pdfPath;
         $attrs['type'] = 'application/pdf';
         $attrs['style'] = "width: 100%; height: {$height}px";
         $attrString = tag_attributes($attrs);
+        $fallback = '<a href="' . html_escape($pdfPath) . '">' . metadata($file, 'display_title') . '</a>';
 
-        return "<object {$attrString}></object>";
+        return "<object {$attrString}>{$fallback}</object>";
     }
 
     public static function embedPdfJs($file, $options)
